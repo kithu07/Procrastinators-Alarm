@@ -1,47 +1,40 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const AddAlarmScreen = ({ navigation, route }) => {
-  const [time, setTime] = useState('');
-  const [difficulty, setDifficulty] = useState('Easy');
-
-  const handleAddAlarm = () => {
-    const newAlarm = { time, difficulty };
-    route.params.addAlarm(newAlarm);
-    navigation.goBack();
-  };
-
+export default function AddAlarmScreen({ navigate }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Set Time:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="HH:MM"
-        onChangeText={setTime}
-        value={time}
-      />
-      <Text style={styles.label}>Select Difficulty:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Easy, Medium, Hard"
-        onChangeText={setDifficulty}
-        value={difficulty}
-      />
-      <Button title="Add Alarm" onPress={handleAddAlarm} />
+      <Text style={styles.title}>Add a New Alarm</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigate('Home')}>
+        <Text style={styles.buttonText}>Save and Go Back</Text>
+      </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000', padding: 20 },
-  label: { color: '#FF1493', fontSize: 18, marginBottom: 10 },
-  input: {
-    backgroundColor: '#222',
-    color: '#fff',
-    padding: 10,
-    borderRadius: 5,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 35,
     marginBottom: 20,
   },
+  button: {
+    backgroundColor: '#FF1493',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
-
-export default AddAlarmScreen;

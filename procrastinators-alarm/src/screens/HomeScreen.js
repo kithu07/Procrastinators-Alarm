@@ -1,53 +1,62 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
 
-const HomeScreen = ({ navigation }) => {
-  const [alarms, setAlarms] = useState([]);
-
-  const addAlarm = (newAlarm) => {
-    setAlarms([...alarms, newAlarm]);
-  };
-
+export default function HomeScreen({ navigate }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Procrastinator's Alarm</Text>
-      <FlatList
-        data={alarms}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.alarmCard}>
-            <Text>{item.time}</Text>
-            <Text>Difficulty: {item.difficulty}</Text>
-          </View>
-        )}
+      <Image
+        source={require('../background.jpeg')} // Replace with your background image path
+        style={styles.backgroundImage}
       />
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Add Alarm', { addAlarm })}
-      >
-        <Text style={styles.addButtonText}>+ Add Alarm</Text>
-      </TouchableOpacity>
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Procrastinator's Alarm</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigate('AddAlarm')}>
+          <Text style={styles.buttonText}>Add Alarm</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigate('Settings')}>
+          <Text style={styles.buttonText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000', padding: 20 },
-  title: { fontSize: 24, color: '#FF1493', marginBottom: 20 },
-  alarmCard: {
-    backgroundColor: '#222',
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 5,
+  container: {
+    flex: 1,
   },
-  addButton: {
-    backgroundColor: '#FF1493',
-    padding: 15,
-    borderRadius: 50,
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    resizeMode: 'cover',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  addButtonText: { color: '#fff', fontSize: 16 },
+  title: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 50,
+  },
+  button: {
+    backgroundColor: '#FF1493',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
-
-export default HomeScreen;

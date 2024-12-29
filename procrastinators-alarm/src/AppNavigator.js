@@ -1,35 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import AddAlarmScreen from './screens/AddAlarmScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
-export default function AppNavigator() {
-  const [currentScreen, setCurrentScreen] = useState('Home'); // Manages active screen
+const AppNavigator = () => {
+  const [activeScreen, setActiveScreen] = useState('Home'); // Default to Home screen
 
+  // Function to render the active screen
   const renderScreen = () => {
-    switch (currentScreen) {
-      case 'Home':
-        return <HomeScreen />;
+    switch (activeScreen) {
       case 'AddAlarm':
-        return <AddAlarmScreen />;
+        return <AddAlarmScreen navigate={setActiveScreen} />;
+      case 'Settings':
+        return <SettingsScreen navigate={setActiveScreen} />;
       default:
-        return <HomeScreen />;
+        return <HomeScreen navigate={setActiveScreen} />;
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.screenContainer}>{renderScreen()}</View>
-      <View style={styles.navContainer}>
-        <Button title="Home" onPress={() => setCurrentScreen('Home')} />
-        <Button title="Add Alarm" onPress={() => setCurrentScreen('AddAlarm')} />
-      </View>
-    </View>
-  );
-}
+  return <View style={styles.container}>{renderScreen()}</View>;
+};
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  screenContainer: { flex: 9 },
-  navContainer: { flex: 1, flexDirection: 'row', justifyContent: 'space-around' },
+  container: {
+    flex: 1,
+  },
 });
+
+export default AppNavigator;
