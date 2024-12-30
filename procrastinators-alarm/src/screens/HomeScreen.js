@@ -1,7 +1,36 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  TouchableOpacity, 
+  Alert 
+} from 'react-native';
 
 export default function HomeScreen({ navigate }) {
+  const [alarm, setAlarm] = useState({ hour: '00', minute: '00' });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const currentHour = now.getHours().toString().padStart(2, '0');
+      const currentMinute = now.getMinutes().toString().padStart(2, '0');
+
+      if (currentHour === alarm.hour && currentMinute === alarm.minute) {
+        clearInterval(interval);
+        Alert.alert('Alarm Ringing', 'Solve the game to stop the alarm!', [
+          {
+            text: 'OK',
+            onPress: () => navigate('Game'), // Navigate to the game screen
+          },
+        ]);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [alarm, navigate]);
+
   return (
     <View style={styles.container}>
       <Image
@@ -10,10 +39,16 @@ export default function HomeScreen({ navigate }) {
       />
       <View style={styles.overlay}>
         <Text style={styles.title}>Procrastinator's Alarm</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigate('AddAlarm')}>
-          <Text style={styles.buttonText}>Add Alarm</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigate('AddAlarm', { setAlarm: (hour, minute) => setAlarm({ hour, minute }) })}
+        >
+          <Text style={styles.buttonText}>Set Alarm</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigate('Settings')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigate('Settings')}
+        >
           <Text style={styles.buttonText}>Settings</Text>
         </TouchableOpacity>
       </View>
