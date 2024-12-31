@@ -34,7 +34,8 @@ export default function HomeScreen({ navigate, alarm, gameSolved, setGameSolved 
         style={styles.backgroundImage}
       />
       <View style={styles.overlay}>
-        <Text style={styles.title}>Procrastinator's Alarm</Text>
+        <Text style={styles.title}>TickTockTask</Text>
+        <Text style={styles.subtitle}>A procrastinator's alarm</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigate('AddAlarm')}
@@ -72,11 +73,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   title: {
-    fontSize: 45,
+    fontSize: 50, 
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'white',
-    marginBottom: 50,
+    color: 'white', 
+    marginBottom: 20,
+    letterSpacing: 2,
+  },
+  subtitle: {
+    fontSize: 18, 
+    fontWeight: '600', 
+    textAlign: 'center',
+    color: 'white', 
+    marginBottom: 40,
   },
   button: {
     backgroundColor: '#FF1493',
