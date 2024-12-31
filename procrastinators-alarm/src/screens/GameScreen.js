@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 
-const GameScreen = ({ navigation }) => {
+const GameScreen = ({ navigate}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState();
   const [question, setQuestion] = useState('');
@@ -57,7 +57,7 @@ const GameScreen = ({ navigation }) => {
           text: 'OK',
           onPress: () => {
             stopAlarm();
-            navigation.navigate('Home');
+            navigate('Home');
           },
         },
       ]);

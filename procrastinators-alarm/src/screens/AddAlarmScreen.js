@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-const AddAlarmScreen = ({ navigate }) => {
+const AddAlarmScreen = ({ navigate, setAlarm }) => {
   const [selectedHour, setSelectedHour] = useState('00');
   const [selectedMinute, setSelectedMinute] = useState('00');
 
@@ -9,6 +9,7 @@ const AddAlarmScreen = ({ navigate }) => {
   const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0')); // 00 to 59
 
   const saveAlarm = () => {
+    setAlarm(selectedHour, selectedMinute);
     alert(`Alarm set for ${selectedHour}:${selectedMinute}`);
     navigate('Home'); // Navigate back to the HomeScreen
   };

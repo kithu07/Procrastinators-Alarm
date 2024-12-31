@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  TouchableOpacity, 
-  Alert 
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 
-export default function HomeScreen({ navigate }) {
-  const [alarm, setAlarm] = useState({ hour: '00', minute: '00' });
+export default function HomeScreen({ navigate, alarm }) {
+  const { hour = '00', minute = '00' } = alarm || {}; // Safe destructuring with default values
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,7 +10,7 @@ export default function HomeScreen({ navigate }) {
       const currentHour = now.getHours().toString().padStart(2, '0');
       const currentMinute = now.getMinutes().toString().padStart(2, '0');
 
-      if (currentHour === alarm.hour && currentMinute === alarm.minute) {
+      if (currentHour === hour && currentMinute === minute) {
         clearInterval(interval);
         Alert.alert('Alarm Ringing', 'Solve the game to stop the alarm!', [
           {
@@ -29,7 +22,7 @@ export default function HomeScreen({ navigate }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [alarm, navigate]);
+  }, [hour, minute, navigate]);
 
   return (
     <View style={styles.container}>
@@ -41,7 +34,7 @@ export default function HomeScreen({ navigate }) {
         <Text style={styles.title}>Procrastinator's Alarm</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigate('AddAlarm', { setAlarm: (hour, minute) => setAlarm({ hour, minute }) })}
+          onPress={() => navigate('AddAlarm')}
         >
           <Text style={styles.buttonText}>Set Alarm</Text>
         </TouchableOpacity>
