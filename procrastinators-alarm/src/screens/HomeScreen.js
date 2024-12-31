@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 
-export default function HomeScreen({ navigate, alarm }) {
+export default function HomeScreen({ navigate, alarm, gameSolved, setGameSolved }) {
   const { hour = '00', minute = '00' } = alarm || {}; // Safe destructuring with default values
 
   useEffect(() => {
@@ -10,19 +10,22 @@ export default function HomeScreen({ navigate, alarm }) {
       const currentHour = now.getHours().toString().padStart(2, '0');
       const currentMinute = now.getMinutes().toString().padStart(2, '0');
 
-      if (currentHour === hour && currentMinute === minute) {
+      if (!gameSolved && currentHour === hour && currentMinute === minute) {
         clearInterval(interval);
         Alert.alert('Alarm Ringing', 'Solve the game to stop the alarm!', [
           {
             text: 'OK',
-            onPress: () => navigate('Game'), // Navigate to the game screen
+            onPress: () => {
+              setGameSolved(true); // Mark the game as solved
+              navigate('Game'); // Navigate to the game screen
+            },
           },
         ]);
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [hour, minute, navigate]);
+  }, [hour, minute, gameSolved, navigate, setGameSolved]);
 
   return (
     <View style={styles.container}>

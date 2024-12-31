@@ -6,8 +6,10 @@ import SettingsScreen from './screens/SettingsScreen';
 import GameScreen from './screens/GameScreen';
 
 const AppNavigator = () => {
-  const [activeScreen, setActiveScreen] = useState('Home'); // Default to Home screen
-  const [alarm, setAlarm] = useState({ hour: '00', minute: '00' }); // Proper initialization
+  const [activeScreen, setActiveScreen] = useState('Home'); 
+  const [alarm, setAlarm] = useState({ hour: '00', minute: '00' });
+  const [gameSolved, setGameSolved] = useState(false); 
+
 
   // Function to render the active screen
   const renderScreen = () => {
@@ -16,7 +18,10 @@ const AppNavigator = () => {
         return (
           <AddAlarmScreen
             navigate={setActiveScreen}
-            setAlarm={(hour, minute) => setAlarm({ hour, minute })}
+            setAlarm={(hour, minute) => {
+              setAlarm({ hour, minute });
+              setGameSolved(false);
+            }}
           />
         );
       case 'Settings':
@@ -24,7 +29,11 @@ const AppNavigator = () => {
       case 'Game':
         return <GameScreen navigate={setActiveScreen} />;
       default:
-        return <HomeScreen navigate={setActiveScreen} alarm={alarm} />;
+        return <HomeScreen  
+        navigate={setActiveScreen}
+        alarm={alarm}
+        gameSolved={gameSolved}
+        setGameSolved={setGameSolved} />;
     }
   };
 
